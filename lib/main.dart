@@ -4,6 +4,8 @@ import 'package:browser_app/utils/app_route.dart';
 import 'package:provider/provider.dart';
 void main()
 {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
       MultiProvider(
         providers: [
@@ -12,7 +14,6 @@ void main()
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           routes:app_route,
-
         ),
       )
   );
