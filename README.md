@@ -20,4 +20,6 @@ samples, guidance on mobile development, and a full API reference.
   <img src = "https://github.com/swetapatel0904/browser_app/assets/153794312/a358c689-aff1-4e43-a95d-650e231ef037" height="400px" width="200px"/>
   <img src = "https://github.com/swetapatel0904/browser_app/assets/153794312/12f4be7d-c986-47e3-a6a9-e3f70a501909" height="400px" width="200px"/>
   <img src = "https://github.com/swetapatel0904/browser_app/assets/153794312/090f0183-fc58-46bb-bf1d-349f577d85d7" height="400px" width="200px"/>
+
+https://github.com/swetapatel0904/browser_app/assets/153794312/f71c763d-e230-4f63-b907-55d524fb84b4
 </p>
