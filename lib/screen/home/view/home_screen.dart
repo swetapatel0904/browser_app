@@ -27,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
         inAppWebViewController!.reload();
       },
     );
-
   }
 
   @override
@@ -63,14 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.arrow_forward_ios)),
           IconButton(
               onPressed: () {
-                providerR!.bookMarks();
+
               },
               icon: const Icon(Icons.star_border)),
           PopupMenuButton(itemBuilder: (context) {
             return [
               PopupMenuItem(
                 onTap: () {
-                  providerW!.bookMarks();
+                  bottomSheet();
                 },
                 child: const Row(
                   children: [
@@ -85,51 +84,80 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
       body: providerR!.isOnline == false
-          ? const Center(child: Icon(Icons.signal_wifi_connected_no_internet_4,size: 100,))
+          ? const Center(
+          child: Icon(Icons.signal_wifi_connected_no_internet_4, size: 100,))
           : Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: SearchBar(
-                      controller: txtWeb,
-                      hintText: "Search your web address",
-                      leading: const Icon(Icons.search),
-                      onTap: () {
-                        inAppWebViewController?.loadUrl(
-                            urlRequest: URLRequest(
-                                url: WebUri(
-                                    "https://www.google.com/search?q=${txtWeb!.text}")));
-                      }),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                LinearProgressIndicator(
-                  value: providerW!.progress,
-                ),
-                Expanded(
-                  child: InAppWebView(
-                    initialUrlRequest: URLRequest(
-                        url: WebUri("https://www.google.com/search?q")),
-                    onProgressChanged: (controller, progress) {
-                      providerR!.changeProgress(progress/100);
-                      inAppWebViewController = controller;
-                      if (progress == 100) {
-                        pcontroller?.endRefreshing();
-                      }
-                    },
-                    onLoadStart: (controller, url) {
-                      inAppWebViewController = controller;
-                    },
-                    onLoadStop: (controller, url) {
-                      pcontroller?.endRefreshing();
-                      inAppWebViewController = controller;
-                    },
-                    pullToRefreshController: pcontroller
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: SearchBar(
+                controller: txtWeb,
+                hintText: "Search your web address",
+                leading: const Icon(Icons.search),
+                onTap: () {
+                  inAppWebViewController?.loadUrl(
+                      urlRequest: URLRequest(
+                          url: WebUri(
+                              "https://www.google.com/search?q=${txtWeb!
+                                  .text}")));
+                }),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          LinearProgressIndicator(
+            value: providerW!.progress,
+          ),
+          Expanded(
+            child: InAppWebView(
+                initialUrlRequest: URLRequest(
+                    url: WebUri("https://www.google.com/search?q")),
+                onProgressChanged: (controller, progress) {
+                  providerR!.changeProgress(progress / 100);
+                  inAppWebViewController = controller;
+                  if (progress == 100) {
+                    pcontroller?.endRefreshing();
+                  }
+                },
+                onLoadStart: (controller, url) {
+                  inAppWebViewController = controller;
+                },
+                onLoadStop: (controller, url) {
+                  pcontroller?.endRefreshing();
+                  inAppWebViewController = controller;
+                },
+                pullToRefreshController: pcontroller
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void bottomSheet() {
+    showModalBottomSheet(context: context,
+      builder: (context) =>
+          BottomSheet(onClosing: () {
+
+          }, builder: (context) =>
+              Container(
+                height: 200,
+                color: Colors.transparent,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('Modal BottomSheet'),
+                      ElevatedButton(
+                        child: const Text('Close BottomSheet'),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+          ),
     );
   }
 

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,9 +27,9 @@ class HomeProvider with ChangeNotifier{
     });
   }
 
-  void bookMarks()
-  async{
-    bookmarksData.add(String as String);
+  void setbookMarks()async
+  {
+
     if(await getBookMarkData()==null)
     {
       bookmarksData=[];
@@ -38,5 +40,20 @@ class HomeProvider with ChangeNotifier{
     }
     notifyListeners();
   }
+
+  void getbookMarks()
+  async{
+
+    if(await getBookMarkData()==null)
+    {
+      bookmarksData=[];
+    }
+    else
+    {
+      bookmarksData=(await getBookMarkData())!;
+    }
+    notifyListeners();
+  }
+
 
 }
