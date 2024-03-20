@@ -1,7 +1,11 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../utils/shared_helper.dart';
 
 class HomeProvider with ChangeNotifier{
+  List <String> bookmarksData=[];
   double progress = 0;
 
   void changeProgress(double p) {
@@ -20,4 +24,19 @@ class HomeProvider with ChangeNotifier{
       notifyListeners();
     });
   }
+
+  void bookMarks()
+  async{
+    bookmarksData.add(String as String);
+    if(await getBookMarkData()==null)
+    {
+      bookmarksData=[];
+    }
+    else
+    {
+      bookmarksData=(await getBookMarkData())!;
+    }
+    notifyListeners();
+  }
+
 }
