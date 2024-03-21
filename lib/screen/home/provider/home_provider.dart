@@ -1,4 +1,4 @@
-import 'dart:html';
+
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -26,22 +26,7 @@ class HomeProvider with ChangeNotifier{
       notifyListeners();
     });
   }
-
-  void setbookMarks()async
-  {
-
-    if(await getBookMarkData()==null)
-    {
-      bookmarksData=[];
-    }
-    else
-    {
-      bookmarksData=(await getBookMarkData())!;
-    }
-    notifyListeners();
-  }
-
-  void getbookMarks()
+  void getBookMarks()
   async{
 
     if(await getBookMarkData()==null)
@@ -54,6 +39,13 @@ class HomeProvider with ChangeNotifier{
     }
     notifyListeners();
   }
-
+  void setBookMarks(String url)
+  {
+    getBookMarks();
+    bookmarksData.add(url);
+    setBookMarkData(bookMarkData: bookmarksData);
+    getBookMarks();
+    notifyListeners();
+  }
 
 }

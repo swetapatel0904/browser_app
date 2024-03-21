@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,21 @@ class _HomeScreenState extends State<HomeScreen> {
     providerW = context.watch<HomeProvider>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Browser App"),
+        title: SizedBox(
+          height: 45,
+          child: SearchBar(
+            elevation: MaterialStateProperty.resolveWith((states) => 0.5),
+              controller: txtWeb,
+              hintText: "Search your web address",
+              leading: const Icon(Icons.search),
+              onTap: () {
+                inAppWebViewController?.loadUrl(
+                    urlRequest: URLRequest(
+                        url: WebUri(
+                            "https://www.google.com/search?q=${txtWeb!
+                                .text}")));
+              }),
+        ),
         leading: IconButton(
             onPressed: () {
               inAppWebViewController?.loadUrl(
@@ -45,35 +60,38 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             icon: const Icon(Icons.home)),
         actions: [
-          IconButton(
-              onPressed: () {
-                inAppWebViewController!.goBack();
-              },
-              icon: const Icon(Icons.arrow_back_ios)),
-          IconButton(
-              onPressed: () {
-                inAppWebViewController!.reload();
-              },
-              icon: const Icon(Icons.refresh)),
-          IconButton(
-              onPressed: () {
-                inAppWebViewController!.goForward();
-              },
-              icon: const Icon(Icons.arrow_forward_ios)),
-          IconButton(
-              onPressed: () {
-
-              },
-              icon: const Icon(Icons.star_border)),
+          IconButton(onPressed: () async {
+            String url = (await inAppWebViewController!.getUrl()).toString();
+            providerR!.setBookMarks(url);
+          }, icon: const Icon(Icons.star_border)),
           PopupMenuButton(itemBuilder: (context) {
             return [
               PopupMenuItem(
+                child: Text("Backward"),
                 onTap: () {
-                  bottomSheet();
+                  inAppWebViewController!.goBack();
+                },
+              ),
+              PopupMenuItem(
+                child: Text("Refresh"),
+                onTap: () {
+                  inAppWebViewController!.reload();
+                },
+              ),
+              PopupMenuItem(
+                child: Text("Forward"),
+                onTap: () {
+                  inAppWebViewController!.goForward();
+                },
+              ),
+              PopupMenuItem(
+                onTap: () {
+                  providerR!.getBookMarks();
+                  showBookMarks();
                 },
                 child: const Row(
                   children: [
-                    Icon(Icons.bookmark_add_outlined),
+                    Icon(Icons.bookmark),
                     Text("Bookmarks"),
                   ],
                 ),
@@ -85,23 +103,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: providerR!.isOnline == false
           ? const Center(
-          child: Icon(Icons.signal_wifi_connected_no_internet_4, size: 100,))
+          child: Icon(
+            Icons.signal_wifi_connected_no_internet_4,
+            size: 100,
+          ))
           : Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: SearchBar(
-                controller: txtWeb,
-                hintText: "Search your web address",
-                leading: const Icon(Icons.search),
-                onTap: () {
-                  inAppWebViewController?.loadUrl(
-                      urlRequest: URLRequest(
-                          url: WebUri(
-                              "https://www.google.com/search?q=${txtWeb!
-                                  .text}")));
-                }),
-          ),
+
           const SizedBox(
             height: 10,
           ),
@@ -126,40 +134,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   pcontroller?.endRefreshing();
                   inAppWebViewController = controller;
                 },
-                pullToRefreshController: pcontroller
-            ),
+                pullToRefreshController: pcontroller),
           ),
         ],
       ),
     );
   }
 
-  void bottomSheet() {
-    showModalBottomSheet(context: context,
-      builder: (context) =>
-          BottomSheet(onClosing: () {
-
-          }, builder: (context) =>
-              Container(
-                height: 200,
-                color: Colors.transparent,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text('Modal BottomSheet'),
-                      ElevatedButton(
-                        child: const Text('Close BottomSheet'),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
+  void showBookMarks() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) =>
+            Padding(padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(itemCount:providerR!.bookmarksData.length,itemBuilder: (context, index) {
+                      return InkWell(
+                          onTap: () {
+                            inAppWebViewController!.loadUrl(
+                                urlRequest: URLRequest(url: WebUri(providerW!.bookmarksData[index])));
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            child: Text(providerW!.bookmarksData[index]),));
+                    },),
                   ),
-                ),
-              ),
-          ),
+                ],
+              ),)
     );
   }
-
-
 }
