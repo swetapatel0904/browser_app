@@ -14,6 +14,10 @@ Screenshots
   <img src = "https://github.com/swetapatel0904/browser_app/assets/153794312/b17f1f3a-9daa-4a3c-a47f-00e4a30b36e1" height="400px" width="200px"/>
   <img src = "https://github.com/swetapatel0904/browser_app/assets/153794312/c7208007-fb8e-4464-944c-40349ddf8f69" height="400px" width="200px"/>
   <img src = "https://github.com/swetapatel0904/browser_app/assets/153794312/fb031fbc-fa6d-4b06-842d-b3976e9a9385" height="400px" width="200px"/>
+
+https://github.com/swetapatel0904/browser_app/assets/153794312/0fa051a9-c193-4436-a7d6-cb0dad699b94
+
+
   
-https://github.com/swetapatel0904/browser_app/assets/153794312/f71c763d-e230-4f63-b907-55d524fb84b4
+
 </p>
